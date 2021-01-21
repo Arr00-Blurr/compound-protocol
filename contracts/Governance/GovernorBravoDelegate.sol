@@ -157,13 +157,14 @@ contract GovernorBravoDelegate is GovernorBravoDelegateStorageV1, GovernorBravoE
       * @param support The support value for the vote. 0=against, 1=for, 2=abstain
       */
     function castVote(uint proposalId, uint8 support) external {
-        
-        emit VoteCast(msg.sender, proposalId, support, _castVote(msg.sender, proposalId, support), "");
+        _castVote(msg.sender, proposalId, support);
     }
 
     function castVoteWithReason(uint proposalId, uint8 support, string calldata reason) external {
         proposals[proposalId].reasons[msg.sender] = reason;
-        emit VoteCast(msg.sender, proposalId, support, _castVote(msg.sender, proposalId, support), reason);
+        _castVote(msg.sender, proposalId, support);
+
+        emit VoteReasonGiven(msg.sender, proposalId, reason);
     }
 
     /**
@@ -176,10 +177,10 @@ contract GovernorBravoDelegate is GovernorBravoDelegateStorageV1, GovernorBravoE
         bytes32 digest = keccak256(abi.encodePacked("\x19\x01", domainSeparator, structHash));
         address signatory = ecrecover(digest, v, r, s);
         require(signatory != address(0), "GovernorBravo::castVoteBySig: invalid signature");
-        emit VoteCast(signatory, proposalId, support, _castVote(signatory, proposalId, support), "");
+        _castVote(signatory, proposalId, support);
     }
 
-    function _castVote(address voter, uint proposalId, uint8 support) internal returns (uint votes) {
+    function _castVote(address voter, uint proposalId, uint8 support) internal {
         require(state(proposalId) == ProposalState.Active, "GovernorBravo::_castVote: voting is closed");
         require(support <= 2, "GovernorBravo::_castVote: invalid vote type");
         Proposal storage proposal = proposals[proposalId];
@@ -199,7 +200,7 @@ contract GovernorBravoDelegate is GovernorBravoDelegateStorageV1, GovernorBravoE
         receipt.support = support;
         receipt.votes = votes;
 
-        return votes;
+        emit VoteCast(voter, proposalId, support, votes);
     }
 
     /*

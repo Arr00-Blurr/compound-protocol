@@ -11,8 +11,9 @@ contract GovernorBravoEvents {
     /// @param proposalId The proposal id which was voted on
     /// @param support Support value for the vote. 0=against, 1=for, 2=abstain
     /// @param votes Number of votes which were cast by the voter
-    /// @param reason The reason given for the vote by the voter
-    event VoteCast(address indexed voter, uint proposalId, uint8 support, uint votes, string reason);
+    event VoteCast(address indexed voter, uint proposalId, uint8 support, uint votes);
+
+    event VoteReasonGiven(address indexed voter, uint proposalId, string reason);
 
     /// @notice An event emitted when a proposal has been canceled
     event ProposalCanceled(uint id);
