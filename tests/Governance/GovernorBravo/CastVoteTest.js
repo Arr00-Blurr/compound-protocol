@@ -49,10 +49,8 @@ describe("governorBravo#castVote/2", () => {
       await mineBlock();
 
       let vote = await send(gov, 'castVote', [proposalId, 1], { from: accounts[4] });
-      console.log('gas used is ' + vote.gasUsed);
 
       let vote2 = await send(gov, 'castVoteWithReason', [proposalId, 1, ""], { from: accounts[3] });
-      console.log('gas used is 0.5 ' + vote2.gasUsed);
 
       await expect(
         gov.methods['castVote'](proposalId, 1).call({ from: accounts[4] })
@@ -64,7 +62,6 @@ describe("governorBravo#castVote/2", () => {
     it("we add the sender to the proposal's voters set", async () => {
       await expect(call(gov, 'getReceipt', [proposalId, accounts[2]])).resolves.toPartEqual({hasVoted: false});
       let vote = await send(gov, 'castVote', [proposalId, 1], { from: accounts[2] });
-      console.log('gas used 2 is ' + vote.gasUsed);
       await expect(call(gov, 'getReceipt', [proposalId, accounts[2]])).resolves.toPartEqual({hasVoted: true});
     });
 
