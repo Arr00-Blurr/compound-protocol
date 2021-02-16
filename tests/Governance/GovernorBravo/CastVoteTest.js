@@ -41,7 +41,7 @@ describe("governorBravo#castVote/2", () => {
     it("There does not exist a proposal with matching proposal id where the current block number is between the proposal's start block (exclusive) and end block (inclusive)", async () => {
       await expect(
         call(gov, 'castVote', [proposalId, 1])
-      ).rejects.toRevert("revert GovernorBravo::_castVote: voting is closed");
+      ).rejects.toRevert("revert GovernorBravo::castVoteInternal: voting is closed");
     });
 
     it("Such proposal already has an entry in its voters set matching the sender", async () => {
@@ -56,7 +56,7 @@ describe("governorBravo#castVote/2", () => {
 
       await expect(
         gov.methods['castVote'](proposalId, 1).call({ from: accounts[4] })
-      ).rejects.toRevert("revert GovernorBravo::_castVote: voter already voted");
+      ).rejects.toRevert("revert GovernorBravo::castVoteInternal: voter already voted");
     });
   });
 
