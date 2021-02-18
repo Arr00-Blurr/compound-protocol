@@ -283,15 +283,14 @@ contract GovernorBravoDelegate is GovernorBravoDelegateStorageV1, GovernorBravoE
       * @dev newProposalThreshold must be greater than the hardcoded min
       * @param newProposalThreshold new proposal threshold
       */
-    function _setProposalThreshold(uint newProposalThreshold) external {
+    function _setProposalThreshold(uint newProposalThereshold) external {
         require(msg.sender == admin, "GovernorBravo::_setProposalThreshold: admin only");
-        require(newProposalThreshold >= MIN_PROPOSAL_THRESHOLD, "GovernorBravo::_setProposalThreshold: new threshold below min");
+        require(newProposalThereshold >= MIN_PROPOSAL_THRESHOLD, "GovernorBravo::_setProposalThreshold: new threshold below min");
         uint oldProposalThreshold = proposalThreshold;
-        proposalThreshold = newProposalThreshold;
+        proposalThreshold = newProposalThereshold;
 
         emit ProposalThresholdSet(oldProposalThreshold, proposalThreshold);
     }
-
     /**
       * @notice Initiate the GovernorBravo contract
       * @dev Admin only. Sets initial proposal id which initiates the contract, ensuring a continious proposal id count
