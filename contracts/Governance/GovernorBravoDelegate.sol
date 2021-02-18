@@ -291,7 +291,7 @@ contract GovernorBravoDelegate is GovernorBravoDelegateStorageV1, GovernorBravoE
 
         emit ProposalThresholdSet(oldProposalThreshold, proposalThreshold);
     }
-    
+
     /**
       * @notice Initiate the GovernorBravo contract
       * @dev Admin only. Sets initial proposal id which initiates the contract, ensuring a continious proposal id count
