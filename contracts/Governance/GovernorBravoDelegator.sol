@@ -47,14 +47,16 @@ contract GovernorBravoDelegator is GovernorBravoDelegatorStorage, GovernorBravoE
      * @dev It returns to the external caller whatever the implementation returns or forwards reverts
      * @param callee The contract to delegatecall
      * @param data The raw data to delegatecall
+     * @return The returned bytes from the delegatecall
      */
-    function delegateTo(address callee, bytes memory data) internal {
+    function delegateTo(address callee, bytes memory data) internal returns (bytes memory) {
         (bool success, bytes memory returnData) = callee.delegatecall(data);
         assembly {
             if eq(success, 0) {
                 revert(add(returnData, 0x20), returndatasize)
             }
         }
+        return returnData;
     }
 
 	/**
