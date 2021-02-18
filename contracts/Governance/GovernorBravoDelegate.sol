@@ -278,11 +278,11 @@ contract GovernorBravoDelegate is GovernorBravoDelegateStorageV1, GovernorBravoE
         emit VotingPeriodSet(oldVotingPeriod, votingPeriod);
     }
 
-    /**
-      * @notice Admin function for setting the proposal threshold
-      * @dev newProposalThreshold must be greater than the hardcoded min
-      * @param newProposalThreshold new proposal threshold
-      */
+    /*
+     * @notice Admin function for setting the proposal threshold
+     * @dev newProposalThreshold must be greater than the hardcoded min
+     * @param newProposalThreshold new proposal threshold
+     */
     function _setProposalThreshold(uint newProposalThereshold) external {
         require(msg.sender == admin, "GovernorBravo::_setProposalThreshold: admin only");
         require(newProposalThereshold >= MIN_PROPOSAL_THRESHOLD, "GovernorBravo::_setProposalThreshold: new threshold below min");
